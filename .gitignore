@@ -1,3 +1,42 @@
-.history/
-node_modules/
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
 .DS_Store
+.history/
+# expo
+.expo/
+
+# Android
+build/
+.idea
+.gradle
+local.properties
+*.iml
+android/.project
+android/app/.classpath
+android/app/.project
+android/app/.settings/org.eclipse.buildship.core.prefs
+android/.settings/org.eclipse.buildship.core.prefs
+
+# BUCK
+buck-out/
+\.buckd/
+*.keystore
+
+# dependencies
+/node_modules
+
+# production
+/build
+/public/assets
+
+# misc
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
