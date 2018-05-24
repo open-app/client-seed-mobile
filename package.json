@@ -10,7 +10,8 @@
     "web": "webpack-dev-server -d --config ./webpack.config.js  --inline --hot --colors --content-base public/ --history-api-fallback",
     "build": "NODE_ENV=production webpack -p --config ./webpack.config.js",
     "format": "prettier --single-quote --trailing-comma es5 --write 'src/*.js'",
-    "setup": "./scripts/setup"
+    "setup": "./scripts/setup",
+    "release": "cd android && ./gradlew assembleRelease && open app/build/outputs/apk && cd .."
   },
   "jest": {
     "preset": "react-native"
