@@ -11,7 +11,8 @@
     "build": "NODE_ENV=production webpack -p --config ./webpack.config.js",
     "format": "prettier --single-quote --trailing-comma es5 --write 'src/*.js'",
     "setup": "./scripts/setup",
-    "release": "cd android && ./gradlew assembleRelease && open app/build/outputs/apk && cd .."
+    "gen-key": "keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000 && mv ./my-release-key.keystore ./android/app/my-release-key.keystore",
+    "release": "cd android && ./gradlew assembleRelease && open app/build/outputs/apk"
   },
   "jest": {
     "preset": "react-native"
