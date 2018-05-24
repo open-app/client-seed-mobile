@@ -4,9 +4,11 @@ Seed project for a mobile Open App Ecosystem client application.
 
 ## Usage
 
-`git clone` 
+`git clone`
 
 `npm run setup`
+
+When you're ready to release you can use `npm run gen-key` to generate a new key, and `npm run release` to build a release apk.
 
 ### Features
 - [ ] Universal (Web and Mobile)

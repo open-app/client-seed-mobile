@@ -1,5 +1,9 @@
 #!/bin/bash
 
 echo "Let's get this party started."
-# desired app title and brand
-# npx react-native-rename
+read -p "App screen name: " screenname
+read -p "App bundle identifier: " bundlename
+npx react-native-rename $screenname -b $bundlename
+npm i
+rm -rf ./.git
+git init
