@@ -1,49 +1,58 @@
 import React from 'react'
-import { View, Text } from 'react-native'
-import { createStackNavigator } from 'react-navigation'
+import { View, Text, Button, Platform, Linking } from 'react-native'
 import ApolloClient from "apollo-boost"
-import gql from "graphql-tag"
+import { createStackNavigator, createSwitchNavigator, createMaterialTopTabNavigator } from 'react-navigation'
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n'
+import Loading from './screens/Loading'
+import Home from './screens/Home'
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql"
+  uri: 'http://localhost:4000/graphql',
+  onError: ({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) {
+      console.log('GraphQL Error: ', graphQLErrors)
+    }
+    if (networkError) {
+      console.log('Network Error: ', networkError)
+    }
+  },
+  clientState: {
+    defaults: {
+      isConnected: true
+    },
+    resolvers: {
+      Mutation: {
+        updateNetworkStatus: (_, { isConnected }, { cache }) => {
+          cache.writeData({ data: { isConnected }})
+          return null
+        }
+      }
+    }
+  },
+  // cacheRedirects: {
+  //   Query: {
+  //     movie: (_, { id }, { getCacheKey }) =>
+  //       getCacheKey({ __typename: 'Movie', id })
+  //   }
+  // }
 })
 
-class HomeScreen extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      whoami: null
-    }
-  }
-  componentDidMount () {
-    client
-      .query({
-        query: gql`
-          {
-            whoami
-          }
-        `
-      })
-      .then(result => {
-        this.setState({
-          whoami: result.data.whoami
-        })
-      })
-      .catch(err => console.log('Error on fetch', err))
-  }
+const MainNavigator = createMaterialTopTabNavigator({
+  Home,
+  Profile: Home,
+})
+
+const AppNavigator = createSwitchNavigator({
+  Loading: Loading,
+  Home: MainNavigator
+})
+
+const WrappedStack = () => {
+  return <I18nextProvider i18n={ i18n }><AppNavigator /></I18nextProvider>
+}
+export default class App extends React.Component {
   render() {
-    const { whoami } = this.state
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{ fontSize: 28, color: '#F68657', paddingBottom: 15 }}>Open App</Text>
-        <Text style={{ width: '80%', fontSize: 12, textAlign: 'center' }}>{whoami || 'Loading...'}</Text>
-      </View>
-    )
+    return <WrappedStack />;
   }
 }
-
-export default createStackNavigator({
-  Home: {
-    screen: HomeScreen
-  },
-})

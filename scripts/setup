@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "Let's get this party started."
+# desired app title and brand
+# npx react-native-rename
